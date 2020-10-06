@@ -29,6 +29,18 @@
             <client-only>
               <div ref="editor" class="ql-editor" contenteditable></div>
             </client-only>
+            <input field class="in-field" placeholder="HeadLine" />
+            <br />
+            <br />
+            <span>
+              <img
+                class="img-first"
+                src="https://img.icons8.com/ios/452/add-book.png"
+              />
+              <span class="img-text"
+                >Write here.Add video or images for visual impact</span
+              >
+            </span>
           </section>
         </div>
         <div class="col-sm-3">
@@ -38,7 +50,10 @@
           <div class="add-field">
             <div>
               <label class="text-label">Tags</label>
-              <b-form-input v-model="text" placeholder="Add Keywords"></b-form-input>
+              <b-form-input
+                v-model="text"
+                placeholder="Add Keywords"
+              ></b-form-input>
               <div class="add-outer">+</div>
             </div>
           </div>
@@ -108,6 +123,9 @@ export default {
   max-height: 400px;
   overflow-y: auto;
 }
+.img-first {
+  height: 20px;
+}
 .button-box {
   border: 1px solid #007bff;
   border-radius: 3px;
@@ -117,6 +135,20 @@ export default {
 }
 .btn.btn-primary {
   font-size: 12px;
+}
+.in-field {
+  width: 100%;
+  padding: 3px 30px;
+  font-size: 30px;
+  background: #f2f2f2;
+  font-weight: 600;
+  border: none;
+}
+.img-text {
+  font-family: fantasy;
+  padding: 10px 12px 0px;
+  font-size: larger;
+  color: gray;
 }
 .add-field {
   position: relative;
@@ -145,6 +177,10 @@ export default {
 .quill-editor {
   min-height: 0;
 }
+.ql-editor {
+  display: none;
+}
+
 .fas.fa-plus-square {
   font-size: 30px;
 }
