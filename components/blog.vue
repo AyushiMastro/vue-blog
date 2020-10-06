@@ -29,7 +29,16 @@
             <client-only>
               <div ref="editor" class="ql-editor" contenteditable></div>
             </client-only>
+            <br />
             <input field class="in-field" placeholder="HeadLine" />
+            <br />
+
+            <br />
+            <input
+              field
+              class="child_label"
+              placeholder="insert text here ..."
+            />
             <br />
             <br />
             <span>
@@ -149,6 +158,22 @@ export default {
   padding: 10px 12px 0px;
   font-size: larger;
   color: gray;
+}
+.child_label {
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  height: 100%;
+  margin: 0px;
+  position: relative;
+  box-sizing: border-box;
+  line-height: 1.42;
+  height: 100%;
+  outline: none;
+  border: ridge;
+  padding: 12px 15px;
+  width: 100%;
+  background: #f2f2f2;
 }
 .add-field {
   position: relative;
