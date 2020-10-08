@@ -15,9 +15,11 @@
 
       <div class="row">
         <div class="col-sm-9">
-          <section class>
+          <section class="editor-container">
             <quill-editor
               ref="editor"
+              v-model="content"
+              :options="editorOption"
               @blur="onEditorBlur($event)"
               @focus="onEditorFocus($event)"
               @ready="onEditorReady($event)"
@@ -26,35 +28,18 @@
             <div class="bg-grey">
               <input id="file" type="file" />
             </div>
-            <client-only>
-              <div ref="editor" class="ql-editor" contenteditable></div>
-            </client-only>
             <br />
             <input field class="in-field" placeholder="HeadLine" />
             <br />
 
             <br />
-            <input
-              field
-              class="child_label"
-              placeholder="insert text here ..."
-            />
-            <br />
-            <br />
-            <span>
-              <img
-                class="img-first"
-                src="https://img.icons8.com/ios/452/add-book.png"
-              />
-              <span class="img-text"
-                >Write here.Add video or images for visual impact</span
-              >
-            </span>
           </section>
         </div>
         <div class="col-sm-3">
           <div class="button-box">
-            <b-button variant="primary">Save and Publish</b-button>
+            <b-button variant="primary" @click="handleClick"
+              >Save and Publish</b-button
+            >
           </div>
           <div class="add-field">
             <div>
@@ -71,6 +56,7 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: "quill-example-nuxt",
@@ -81,14 +67,13 @@ export default {
         theme: "snow",
         modules: {
           toolbar: [
-            ["bold", "italic", "underline", "strike"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ color: [] }, { background: [] }],
-            [{ font: [] }],
-            [{ align: [] }],
-            ["link", "image"],
-            ["clean"]
+            [
+              {
+                header: [1, 2, false]
+              }
+            ],
+            ["bold", "italic", "underline"],
+            ["image", "code-block"]
           ]
         }
       }
@@ -99,17 +84,26 @@ export default {
     //   "App inited, the Quill instance object is:",
     //   this.$refs.editor.quill
     // );
-    console.log(this.$refs["editor"].quill.addContainer("ql-xtz"));
+    // console.log(this.$refs["editor"].quill.addContainer("ql-xtz"));
   },
+
   methods: {
     onEditorBlur(editor) {
       console.log("editor blur!", editor);
     },
+
     onEditorFocus(editor) {
       console.log("editor focus!", editor);
     },
     onEditorReady(editor) {
       console.log("editor ready!", editor);
+    },
+    handleClick() {
+      //  axios
+      // .get("http://localhost:4000/api/blog/get")
+      // const url = "https://jsonplaceholder.typicode.com/todos/1";
+      //   console.log(response.data);
+      // });
     }
   }
 };
@@ -202,9 +196,6 @@ export default {
 .quill-editor {
   min-height: 0;
 }
-.ql-editor {
-  display: none;
-}
 
 .fas.fa-plus-square {
   font-size: 30px;
@@ -218,5 +209,15 @@ export default {
   opacity: 0;
   height: 200px;
   width: 100%;
+}
+.editor-container {
+  position: relative;
+}
+.ql-container {
+  position: absolute !important;
+  top: 100%;
+  max-height: 100%;
+  width: 100% !important;
+  border-top: 1px solid #ccc !important;
 }
 </style>

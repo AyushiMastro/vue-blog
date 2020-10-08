@@ -1,12 +1,13 @@
 <template>
   <div class="width100">
-    <blog />
+    <Blog />
   </div>
 </template>
 
 <script>
 // import Quill from 'quill'
 import Blog from "../components/blog";
+import axios from "axios";
 
 export default {
   layout: "navbar"

@@ -8,10 +8,10 @@
 html {
   font-family:
     'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
+    '-apple-system',
+    'BlinkMacSystemFont',
     'Segoe UI',
-    Roboto,
+    'Roboto',
     'Helvetica Neue',
     Arial,
     sans-serif;
