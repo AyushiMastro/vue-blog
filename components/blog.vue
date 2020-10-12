@@ -23,13 +23,14 @@
               @blur="onEditorBlur($event)"
               @focus="onEditorFocus($event)"
               @ready="onEditorReady($event)"
+              @change="onEditorChange($event)"
             />
 
             <div class="bg-grey">
               <input id="file" type="file" />
             </div>
             <br />
-            <input field class="in-field" placeholder="HeadLine" />
+            <input field class="in-field" placeholder="HeadLine" @change="onChange($event)"/>
             <br />
 
             <br />
@@ -58,6 +59,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
 export default {
   name: "quill-example-nuxt",
   data() {
@@ -76,7 +80,10 @@ export default {
             ["image", "code-block"]
           ]
         }
-      }
+      },
+      blog_description:'',
+      blog_title:'',
+      blog_image:''
     };
   },
   mounted() {
@@ -91,20 +98,36 @@ export default {
     onEditorBlur(editor) {
       console.log("editor blur!", editor);
     },
-
+    onEditorChange(editor){
+    this.blog_description = editor.html
+    console.log(this.blog_description,"description")
+    },
+    onChange(e){
+      console.log(e.target.value,"valueee")
+    },
     onEditorFocus(editor) {
       console.log("editor focus!", editor);
     },
     onEditorReady(editor) {
       console.log("editor ready!", editor);
+      
     },
-    handleClick() {
-      //  axios
-      // .get("http://localhost:4000/api/blog/get")
-      // const url = "https://jsonplaceholder.typicode.com/todos/1";
-      //   console.log(response.data);
-      // });
-    }
+   handleClick() {
+
+    this.$http.post("http://localhost:4000/api/blog/create",{
+    headers: {
+      'Accept': 'application/json'
+        },
+     blog_title:this.blog_title,
+     blog_description:this.blog_description,
+     blog_image:this.blog_image
+    })
+    .then(function(data){
+      console.log(data)
+    })
+    
+  
+}
   }
 };
 </script>
