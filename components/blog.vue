@@ -60,6 +60,7 @@
 
 <script>
 import Vue from 'vue'
+
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 export default {
@@ -113,6 +114,7 @@ export default {
       
     },
    handleClick() {
+    const mcbc = this.blog_description
 
     this.$http.post("http://localhost:4000/api/blog/create",{
     headers: {
@@ -125,9 +127,7 @@ export default {
     .then(function(data){
       console.log(data)
     })
-    
-  
-}
+   this.$router.push({name:'blog', params:{'data':mcbc,}});        }
   }
 };
 </script>
