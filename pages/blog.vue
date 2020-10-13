@@ -1,12 +1,13 @@
 <template>
   <div id="app">
 <h1> BLOG</h1>
-<div>{{htmls}}</div>
-
+<div>{{info}}</div>
+{{info}}
  </div>
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {  
   
@@ -17,20 +18,20 @@ export default {
       
     return {
       
-      htmls : this.$route.params['data'],
+      htmls : this.$route.params['slug'],
 
   
 
     };
   },
+  mounted(){
+   axios
+  .get(' http://localhost:4000/api/blog/p/'+slug)
+  .then(response => (this.info = response))
+   },
 methods:{
-  // created(){
-  //   this.$http.get('http://localhost:4000/api/blog/').then(function(data){
-  //     console.log(data.body)
-  //     })
-  }
 }
-
+}
 </script>
 
 <style>

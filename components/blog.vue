@@ -30,7 +30,7 @@
               <input id="file" type="file" />
             </div>
             <br />
-            <input field class="in-field" placeholder="HeadLine" @change="onChange($event)"/>
+            <input field class="in-field" id="nandan"placeholder="HeadLine" @click="onChange"/>
             <br />
 
             <br />
@@ -97,6 +97,7 @@ export default {
 
   methods: {
     onEditorBlur(editor) {
+      
       console.log("editor blur!", editor);
     },
     onEditorChange(editor){
@@ -104,7 +105,9 @@ export default {
     console.log(this.blog_description,"description")
     },
     onChange(e){
-      console.log(e.target.value,"valueee")
+      console.log("hello")
+      this.blog_title=e.target.value
+      console.log(this.blog_title,'title')
     },
     onEditorFocus(editor) {
       console.log("editor focus!", editor);
@@ -114,20 +117,25 @@ export default {
       
     },
    handleClick() {
+    const text= document.getElementById("nandan").value
+    // console.log(text,'text') 
     const mcbc = this.blog_description
 
     this.$http.post("http://localhost:4000/api/blog/create",{
     headers: {
       'Accept': 'application/json'
         },
-     blog_title:this.blog_title,
+     blog_title:text,
      blog_description:this.blog_description,
-     blog_image:this.blog_image
+     blog_image:this.blog_image,
     })
     .then(function(data){
       console.log(data)
     })
-   this.$router.push({name:'blog', params:{'data':mcbc,}});        }
+   this.$router.push({path:'blog/'+text,
+                       params:{'slug':text}});  
+  //  this.$router.push({ name: 'blog', params:{'slug':text} })
+         }
   }
 };
 </script>
