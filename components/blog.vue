@@ -26,11 +26,14 @@
               @change="onEditorChange($event)"
             />
 
-            <div class="bg-grey">
-              <input id="file" type="file" />
+            <div v-if="!blog_image" class="bg-grey">
+              <input id="file" type="file" @change="onUpload($event)" />
+            </div>
+            <div v-else class="image__class">
+            <img :src="blog_image_url" />
             </div>
             <br />
-            <input field class="in-field" id="nandan"placeholder="HeadLine" @click="onChange"/>
+            <input field class="in-field" placeholder="HeadLine" @change="onChange"/>
             <br />
 
             <br />
@@ -84,25 +87,15 @@ export default {
       },
       blog_description:'',
       blog_title:'',
-      blog_image:''
+      blog_image:'',
+      blog_image_url:''
     };
-  },
-  mounted() {
-    // console.log(
-    //   "App inited, the Quill instance object is:",
-    //   this.$refs.editor.quill
-    // );
-    // console.log(this.$refs["editor"].quill.addContainer("ql-xtz"));
   },
 
   methods: {
-    onEditorBlur(editor) {
-      
-      console.log("editor blur!", editor);
-    },
     onEditorChange(editor){
     this.blog_description = editor.html
-    console.log(this.blog_description,"description")
+    console.log(this.blog_description,"description",editor)
     },
     onChange(e){
       console.log("hello")
@@ -114,28 +107,47 @@ export default {
     },
     onEditorReady(editor) {
       console.log("editor ready!", editor);
-      
-    },
-   handleClick() {
-    const text= document.getElementById("nandan").value
-    // console.log(text,'text') 
-    const mcbc = this.blog_description
+      },
+   handleClick() { 
+     let rawObject = {
+       'blog_title':this.blog_title,
+       'blog_description': this.blog_description
+     }
+     rawObject = JSON.stringify(rawObject)
+    let formData = new FormData()
+    console.log(formData,"beforez apend")
+    formData.append('blog_title',this.blog_title)
+    formData.append('blog_description',this.blog_description)
+    formData.append('blog_image',this.blog_image)
+    for (var key of formData.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+    }
 
-    this.$http.post("http://localhost:4000/api/blog/create",{
+    // console.log(,"asdasdas")
+ this.$http.post("http://localhost:4000/api/blog/create",formData,{
     headers: {
-      'Accept': 'application/json'
-        },
-     blog_title:text,
-     blog_description:this.blog_description,
-     blog_image:this.blog_image,
+      'Accept': 'application/json',
+      'Content-Type':'multipart/form-data'
+        }
     })
     .then(function(data){
-      console.log(data)
+      console.log(data.data)
+       this.$router.push({path:'/'+data.data.slug}); 
     })
-   this.$router.push({path:'blog/'+text,
-                       params:{'slug':text}});  
+   
   //  this.$router.push({ name: 'blog', params:{'slug':text} })
-         }
+         },
+    onEditorBlur(editor) {
+      console.log("editor blur!", editor);
+    },
+    onUpload(e){
+     var files = e.target.files || e.dataTransfer.files;
+     if (!files.length)
+    return;
+    this.blog_image = files[0]
+    this.blog_image_url = URL.createObjectURL(files[0]);
+    console.log(this.blog_image,'image')
+     },
   }
 };
 </script>
@@ -234,6 +246,9 @@ export default {
 .bg-grey {
   background: url("https://static-exp1.licdn.com/sc/h/9umi21lvbdkhlz1fzfto0ks1p")
     center center no-repeat #e4e4e4;
+  height: 200px;
+}
+.image__class img{
   height: 200px;
 }
 #file {
