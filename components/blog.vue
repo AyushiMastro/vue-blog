@@ -111,7 +111,7 @@ export default {
    handleClick() { 
      let rawObject = {
        'blog_title':this.blog_title,
-       'blog_description': this.blog_description
+       'blog_description': this.blog_description,
      }
      rawObject = JSON.stringify(rawObject)
     let formData = new FormData()

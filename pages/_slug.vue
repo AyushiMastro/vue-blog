@@ -1,7 +1,7 @@
 <template>
 <div class="container blog__container">
 <h1 class="header_text">{{info.blog_title}}</h1>
-<img  class="img_res" v-bind:src="url + info.blog_image+btoa(binary)"/>
+<!-- <img  class="img_res" v-bind:src="url + info.blog_image"/> -->
 <p v-html="info.blog_description">
 
   
@@ -25,7 +25,7 @@ export default {
       info:"",
       slug : this.$route.params['slug'],
 
-      url:'http://localhost:4000'
+      img:""
 
     };
   },
@@ -34,8 +34,15 @@ export default {
    axios
   .get(' http://localhost:4000/api/blog/p/'+this.slug)
   .then(response => (this.info = response.data))
+  console.log(this.info,"infooo")
    },
 methods:{
+  arrayBufferToBase64(buffer) {
+    var binary = '';
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => binary += String.fromCharCode(b));
+    return $this.btoa(binary);
+}
 }
 }
 </script>
