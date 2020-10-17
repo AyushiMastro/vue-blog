@@ -98,7 +98,6 @@ export default {
     console.log(this.blog_description,"description",editor)
     },
     onChange(e){
-      console.log("hello")
       this.blog_title=e.target.value
       console.log(this.blog_title,'title')
     },
@@ -108,6 +107,7 @@ export default {
     onEditorReady(editor) {
       console.log("editor ready!", editor);
       },
+
    handleClick() { 
      let rawObject = {
        'blog_title':this.blog_title,
@@ -115,15 +115,16 @@ export default {
      }
      rawObject = JSON.stringify(rawObject)
     let formData = new FormData()
-    console.log(formData,"beforez apend")
+    console.log(formData,"before apend")
+
     formData.append('blog_title',this.blog_title)
     formData.append('blog_description',this.blog_description)
     formData.append('blog_image',this.blog_image)
+
     for (var key of formData.entries()) {
         console.log(key[0] + ', ' + key[1]);
     }
 
-    // console.log(,"asdasdas")
  this.$http.post("http://localhost:4000/api/blog/create",formData,{
     headers: {
       'Accept': 'application/json',
@@ -146,6 +147,7 @@ export default {
     return;
     this.blog_image = files[0]
     this.blog_image_url = URL.createObjectURL(files[0]);
+    console.log(this.blog_image_url)
     console.log(this.blog_image,'image')
      },
   }

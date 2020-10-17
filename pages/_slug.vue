@@ -1,7 +1,7 @@
 <template>
 <div class="container blog__container">
 <h1 class="header_text">{{info.blog_title}}</h1>
-<img  class="img_res" v-bind:src="url + info.blog_image"/>
+<img  class="img_res" v-bind:src="url + info.blog_image+btoa(binary)"/>
 <p v-html="info.blog_description">
 
   
