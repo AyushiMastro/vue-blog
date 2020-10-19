@@ -51,8 +51,9 @@
               <b-form-input
                 v-model="text"
                 placeholder="Add Keywords"
+                class="add_keywords"
               ></b-form-input>
-              <div class="add-outer">+</div>
+              <div class="add-outer" @click="onPress">+</div>
             </div>
           </div>
         </div>
@@ -66,6 +67,7 @@ import Vue from 'vue'
 
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
+const key_arr = [];
 export default {
   name: "quill-example-nuxt",
   data() {
@@ -107,6 +109,11 @@ export default {
     onEditorReady(editor) {
       console.log("editor ready!", editor);
       },
+      onPress(){
+        var keywrd = document.getElementById("__BVID__17").value ;
+        key_arr.push(keywrd)
+        console.log(key_arr)
+      },
 
    handleClick() { 
      let rawObject = {
@@ -120,6 +127,8 @@ export default {
     formData.append('blog_title',this.blog_title)
     formData.append('blog_description',this.blog_description)
     formData.append('blog_image',this.blog_image)
+    formData.append('keywords',key_arr)
+
 
     for (var key of formData.entries()) {
         console.log(key[0] + ', ' + key[1]);
