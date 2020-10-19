@@ -1,7 +1,7 @@
 <template>
 <div class="container blog__container">
 <h1 class="header_text">{{info.blog_title}}</h1>
-<!-- <img  class="img_res" v-bind:src="url + info.blog_image"/> -->
+<img  class="img_res" v-bind:src="imgurl"/>
 <p v-html="info.blog_description">
 
   
@@ -25,25 +25,26 @@ export default {
       info:"",
       slug : this.$route.params['slug'],
 
-      img:""
+      imgurl:""
 
     };
   },
-  mounted(){
-    console.log(this.htmls,"htmsmsmsm")
-   axios
+      methods:{
+        arrayBufferToBase64(buffer) {
+          var binary = '';
+          var bytes = [].slice.call(new Uint8Array(buffer));
+          bytes.forEach((b) => binary += String.fromCharCode(b));
+          return window.btoa(binary);
+      },
+      },
+  async mounted(){
+   let res = await axios
   .get(' http://localhost:4000/api/blog/p/'+this.slug)
-  .then(response => (this.info = response.data))
-  console.log(this.info,"infooo")
+    let base64Flag = 'data:image/jpeg;base64,';
+    let imgString = this.arrayBufferToBase64(res.data.blog_image.data.data)
+    this.info = res.data
+    this.imgurl = `${base64Flag}${imgString}`
    },
-methods:{
-  arrayBufferToBase64(buffer) {
-    var binary = '';
-    var bytes = [].slice.call(new Uint8Array(buffer));
-    bytes.forEach((b) => binary += String.fromCharCode(b));
-    return $this.btoa(binary);
-}
-}
 }
 </script>
 
