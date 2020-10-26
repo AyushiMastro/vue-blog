@@ -36,7 +36,11 @@
             <br />
 
             <br />
-                      <button @click="addtext">Add 1</button>
+            
+            <!-- <button @click="addtext">Add 1</button> -->
+      <input type="file" id="selectImg" accept="image/gif, image/jpeg, image/png" @change="inputChangeImg"
+             multiple/>
+
 
           </section>
 
@@ -65,7 +69,6 @@
 
 <script>
 import Vue from 'vue'
-
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 const key_arr = [];
@@ -80,8 +83,9 @@ export default {
           toolbar: [
             [
               {
-                header: [1, 2, false]
+                header: [1, 2, false]               
               }
+              
             ],
             ["bold", "italic", "underline"],
             ["image", "code-block"]
@@ -91,8 +95,9 @@ export default {
       },
       blog_description:'',
       blog_title:'',
-      blog_image:'',
-      blog_image_url:''
+      blog_image:'',  
+      blog_image_url:'',
+      img_src:''
     };
   },
 
@@ -136,22 +141,23 @@ export default {
         console.log(key[0] + ', ' + key[1]);
     }
 
- this.$http.post("http://localhost:4000/api/blog/create",formData,{
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type':'multipart/form-data'
-        }
-    })
-    .then(function(data){
-      console.log(data.data)
-       this.$router.push({path:'/'+data.data.slug}); 
-    })
+    this.$http.post("http://localhost:4000/api/blog/create",formData,{
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type':'multipart/form-data'
+            }
+        })
+      .then(function(data){
+        console.log(data.data)
+        this.$router.push({path:'/'+data.data.slug}); 
+      })
    
-  //  this.$router.push({ name: 'blog', params:{'slug':text} })
+    //  this.$router.push({ name: 'blog', params:{'slug':text} })
          },
     onEditorBlur(editor) {
       console.log("editor blur!", editor);
     },
+
     onUpload(e){
      var files = e.target.files || e.dataTransfer.files;
      if (!files.length)
@@ -162,50 +168,53 @@ export default {
     console.log(this.blog_image,'image')
      },
 
-     addtext() {
+    addtext() {
+   
       console.log("button clicked");
       const desc = this.$refs.editor.quill;
+      console.log(desc)
+
       var selection = desc.getSelection(true);
       console.log(selection,"selection");
+
       this.$refs.editor.quill.insertText(selection.index, 'MASTROLINKS');
+      // this.$refs.editor.quill.insertEmbed(length, 'image', res.url);
+      console.log("#success#");
+    },
+
+    inputChangeImg(){    
+      console.log('function called')
+      var file = document.querySelector('#selectImg').files[0];
+      console.log('file',file)
+      var reader = new FileReader();
+      let src = ""
+
+      reader.addEventListener("load", () => {
+        const src = reader.result; 
+        this.img_src = src
+        let quill = this.$refs.editor.quill
+      let length = quill.getSelection(true).index;
+      quill.insertEmbed(length, 'image', src);
+        // imageTag = `<img src="${src}">` ;
+        // console.log(imageTag);          
+        }, false);  
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }  
+        // console.log("reader.result(src222)",  this.img_src)
+
+
+      
+      // this.$refs.editor.quill.insertText(selection.index, imageTag);
       console.log("#success#");
 
 
+    }
+  } 
 
-
-      // desc.insertText(0, 'Hello', 'bold', true)
-      
-      // console.log(desc,"##");
-      // desc.insertText(this.$refs.editor.quill.getSelection().index, 'Hello', 'link', 'https://world.com')
-      // console.log("#success#");
-
-      
-
-
-      // var Delta = Quill.import('desc');
-      // console.log("Delta ",Delta)
-
-      // tableModule.insertTable(3, 3);
-      // console.log(this.$refs["editor"]._content)
-      // this.$refs["editor"]._content = "<p>Nandan</p>"
-      
-      // editor.html = "hi";
-      // let test = this.blog_description
-      // console.log("BLOg ",test)
-      
-      
-        // Quill.insertText(0, 'Hello', 'bold', true);
-        // var Delta =  Quill.import('delta');
-        // quill.updateContents(
-        // new Delta()
-        //   .retain(quill.getSelection().index)
-        //   .insert({ 
-        //     text: 'hi there'
-        //   },
-        //   ));
-    },
-  }
 };
+
 </script>
 
 <style>
