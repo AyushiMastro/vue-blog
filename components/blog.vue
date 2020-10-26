@@ -25,7 +25,6 @@
               @ready="onEditorReady($event)"
               @change="onEditorChange($event)"
             />
-
             <div v-if="!blog_image" class="bg-grey">
               <input id="file" type="file" @change="onUpload($event)" />
             </div>
@@ -37,7 +36,10 @@
             <br />
 
             <br />
+                      <button @click="addtext">Add 1</button>
+
           </section>
+
         </div>
         <div class="col-sm-3">
           <div class="button-box">
@@ -51,8 +53,7 @@
               <b-form-input
                 v-model="text"
                 placeholder="Add Keywords"
-                class="add_keywords"
-              ></b-form-input>
+                class="add_keywords"></b-form-input>
               <div class="add-outer" @click="onPress">+</div>
             </div>
           </div>
@@ -86,6 +87,7 @@ export default {
             ["image", "code-block"]
           ]
         }
+
       },
       blog_description:'',
       blog_title:'',
@@ -120,7 +122,7 @@ export default {
        'blog_title':this.blog_title,
        'blog_description': this.blog_description,
      }
-     rawObject = JSON.stringify(rawObject)
+    rawObject = JSON.stringify(rawObject)
     let formData = new FormData()
     console.log(formData,"before apend")
 
@@ -159,6 +161,49 @@ export default {
     console.log(this.blog_image_url)
     console.log(this.blog_image,'image')
      },
+
+     addtext() {
+      console.log("button clicked");
+      const desc = this.$refs.editor.quill;
+      var selection = desc.getSelection(true);
+      console.log(selection,"selection");
+      this.$refs.editor.quill.insertText(selection.index, 'MASTROLINKS');
+      console.log("#success#");
+
+
+
+
+      // desc.insertText(0, 'Hello', 'bold', true)
+      
+      // console.log(desc,"##");
+      // desc.insertText(this.$refs.editor.quill.getSelection().index, 'Hello', 'link', 'https://world.com')
+      // console.log("#success#");
+
+      
+
+
+      // var Delta = Quill.import('desc');
+      // console.log("Delta ",Delta)
+
+      // tableModule.insertTable(3, 3);
+      // console.log(this.$refs["editor"]._content)
+      // this.$refs["editor"]._content = "<p>Nandan</p>"
+      
+      // editor.html = "hi";
+      // let test = this.blog_description
+      // console.log("BLOg ",test)
+      
+      
+        // Quill.insertText(0, 'Hello', 'bold', true);
+        // var Delta =  Quill.import('delta');
+        // quill.updateContents(
+        // new Delta()
+        //   .retain(quill.getSelection().index)
+        //   .insert({ 
+        //     text: 'hi there'
+        //   },
+        //   ));
+    },
   }
 };
 </script>

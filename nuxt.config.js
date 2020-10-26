@@ -7,7 +7,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     // script: [{ src: 'https://kit.fontawesome.com/0d23f6745f.js' }]
   },
 
@@ -25,6 +25,7 @@ export default {
   plugins: [
     { src: '~plugins/nuxt-quill-plugin', ssr: false },
     { src: '~/plugins/vuex' }
+    // { src: '~/plugins/natural' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
