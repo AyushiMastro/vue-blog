@@ -1,5 +1,7 @@
 <template>
+
   <div class="position-relative">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div class="Blog-content">
       <div class>
         <h3>Blog</h3>
@@ -34,15 +36,43 @@
             <br />
             <input field class="in-field" placeholder="HeadLine" @change="onChange"/>
             <br />
+            <br/>
+              <div class="add_item">
+                <button @click="controlnav" id ="main_photo"><i class="fa fa-plus"></i></button>  
 
-            <br />
-            
-            <!-- <button @click="addtext">Add 1</button> -->
-      <input type="file" id="selectImg" accept="image/gif, image/jpeg, image/png" @change="inputChangeImg"
-             multiple/>
+                <div id="hide" class="block_items" ref="add_content">
+                  <button @click="uploadimage"class="all_buttons"><i class="fa fa-image">images</i></button> 
+                  <button @click="uploadvideo" class="all_buttons"><i class="fa fa-video-camera">video</i></button> 
+                  <button @click="uploadslide" class="all_buttons"><i class="fa fa-slideshare">slides</i></button> 
+                  <button @click="uploadlink" class="all_buttons"><i class="fa fa-link">links</i></button>
+                  <button @click="snippet_click" class="all_buttons"><i class="fa fa-code">snippet</i></button>  
+                </div>
+              </div>
+
+              <div class="pick_content" ref="upload_image">
+              <input type="file"   class="upload_File" id="selectImg" accept="image/gif, image/jpeg, image/png" @change="image_click"
+             multiple/>             
+              </div>
+
+              <div class="pick_content" ref="upload_video">
+                <input ref="video_link" field class="upload_File" placeholder="Paste the video link here and press here to add"/>
+                <button class="submit_Button" @click="video_click">Submit</button>
+              </div>
+
+              <div class="pick_content" ref="upload_slide">
+                <input ref="slide_link"field class="upload_File" placeholder="Paste the slide link here and press here to add"/>
+                <button class="submit_Button" @click="slide_click">Submit</button>
+              </div>
+                 <div class="pick_content" ref="upload_link">
+                <input ref="link_link"field class="upload_File" placeholder="Paste the  link here and press here to add"/>
+                <button class="submit_Button" @click="link_click">Submit</button>
+              </div>
+
+           
 
 
-          </section>
+
+             </section>
 
         </div>
         <div class="col-sm-3">
@@ -97,7 +127,7 @@ export default {
       blog_title:'',
       blog_image:'',  
       blog_image_url:'',
-      img_src:''
+      img_src:'', 
     };
   },
 
@@ -120,6 +150,165 @@ export default {
         var keywrd = document.getElementById("__BVID__17").value ;
         key_arr.push(keywrd)
         console.log(key_arr)
+      },
+
+      controlnav(){
+      var x = this.$refs["add_content"];
+      if (x.style.display === "none") 
+      {
+        x.style.display = "inline-block";
+      } 
+      else {
+      x.style.display = "none";
+       }
+
+      },
+           uploadimage(){
+      var image = this.$refs["upload_image"];       
+      var video = this.$refs["upload_video"];
+      var slide = this.$refs["upload_slide"];
+      var link = this.$refs["upload_link"];
+      slide.style.display = "none";
+      link.style.display = "none";
+      video.style.display = "none";
+
+
+      if (image.style.display === "none") 
+      {
+        image.style.display = "block";  
+      } 
+      else {
+      image.style.display = "none";
+       }
+
+      },
+      uploadvideo(){
+      var image = this.$refs["upload_image"];
+      var video = this.$refs["upload_video"];
+      var slide = this.$refs["upload_slide"];
+      var link = this.$refs["upload_link"];
+
+      image.style.display = "none";
+      slide.style.display = "none";
+      link.style.display = "none";
+
+      if (video.style.display === "none") 
+      {
+        video.style.display = "block";  
+      } 
+      else {
+      video.style.display = "none";
+       }
+
+      },
+      uploadslide(){
+      var image = this.$refs["upload_image"];
+      var slide = this.$refs["upload_slide"];
+      var video = this.$refs["upload_video"];
+      var link = this.$refs["upload_link"];
+
+      video.style.display = "none";
+      link.style.display = "none";
+      image.style.display = "none";
+
+
+      if (slide.style.display === "none") 
+      {
+        slide.style.display = "block";
+      } 
+      else {
+      slide.style.display = "none";
+       }
+
+      },
+       uploadlink(){
+      var image = this.$refs["upload_image"];
+      var slide = this.$refs["upload_slide"];
+      var video = this.$refs["upload_video"];
+      var link = this.$refs["upload_link"];
+
+      image.style.display = "none";
+      video.style.display = "none";
+      slide.style.display = "none";
+
+
+      if (link.style.display === "none") 
+      {
+        link.style.display = "block";
+      } 
+      else {
+      link.style.display = "none";
+       }
+
+      },
+
+
+      image_click(){
+        console.log('function called image_click')
+        var file = document.querySelector('#selectImg').files[0];
+        console.log('file',file)
+        var reader = new FileReader();
+        let src = ""
+        reader.addEventListener("load", () => {
+        const src = reader.result;
+        this.img_src = src
+        let quill = this.$refs.editor.quill
+        let length = quill.getSelection(true).index;
+        quill.insertEmbed(length, 'image', src);
+        quill.setSelection(length+=1);
+
+        }, false);
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+     
+      var image = this.$refs["upload_image"];   
+      image.style.display = "none";
+      },
+
+      video_click(){
+        console.log('video_click',this.$refs.video_link.value)
+        var video_input_url = this.$refs.video_link.value
+        
+        const desc = this.$refs.editor.quill;
+        var selection = desc.getSelection(true);
+        this.$refs.editor.quill.insertEmbed(selection.index, 'video', video_input_url);   
+        this.$refs.editor.quill.setSelection(selection.index+=1);
+        var video = this.$refs["upload_video"];
+        video.style.display = "none";
+
+
+      },
+
+      slide_click(){
+        console.log('slide_click',this.$refs.slide_link.value)
+        var slide_input_url = this.$refs.slide_link.value
+        const desc = this.$refs.editor.quill;
+        var selection = desc.getSelection(true);
+        this.$refs.editor.quill.insertEmbed(selection.index, 'video', slide_input_url);   
+        this.$refs.editor.quill.setSelection(selection.index+=1);
+        var slide = this.$refs["upload_slide"];
+        slide.style.display = "none";
+      },
+      link_click(){
+        console.log('link_click',this.$refs.link_link.value)
+        var link_input_url = this.$refs.link_link.value
+        const desc = this.$refs.editor.quill;
+        var selection = desc.getSelection(true);
+        this.$refs.editor.quill.insertEmbed(selection.index, 'video', link_input_url);   
+        this.$refs.editor.quill.setSelection(selection.index+=1);
+        var link = this.$refs["upload_link"];
+        link.style.display = "none";   
+       },
+
+      snippet_click(){
+      const desc = this.$refs.editor.quill;
+      console.log(desc)
+      var selection = desc.getSelection(true);
+      console.log(selection,"selection");
+      this.$refs.editor.quill.insertEmbed(selection.index, 'code-block','selection');
+      console.log("#success#");
       },
 
    handleClick() { 
@@ -215,6 +404,7 @@ export default {
 
 };
 
+
 </script>
 
 <style>
@@ -229,11 +419,7 @@ export default {
 .Blog-content {
   padding: 20px;
 }
-.quill-editor {
-  min-height: 200px;
-  max-height: 400px;
-  overflow-y: auto;
-}
+
 .img-first {
   height: 20px;
 }
@@ -244,8 +430,22 @@ export default {
   justify-content: center;
   padding: 16px;
 }
+#main_photo{
+  font-size:25px;
+  color:grey;
+  border:none;
+}
 .btn.btn-primary {
   font-size: 12px;
+}
+.icon-bar a {
+  float: left;
+  width: 20%;
+  text-align: center;
+  padding: 12px 0;
+  transition: all 0.3s ease;
+  color: black;
+  font-size: 20px;
 }
 .in-field {
   width: 100%;
@@ -301,9 +501,7 @@ export default {
   right: 4px;
   top: 42px;
 }
-.quill-editor {
-  min-height: 0;
-}
+
 
 .fas.fa-plus-square {
   font-size: 30px;
@@ -330,5 +528,37 @@ export default {
   max-height: 100%;
   width: 100% !important;
   border-top: 1px solid #ccc !important;
+}
+.add_item{
+  width:100%;
+  display: inline-block;
+}
+.block_items{
+  width:90%;
+  
+  display: inline-block;
+}
+.all_buttons{
+  margin-left:0px;
+  width:19%;
+  border:none;
+}
+.pick_content{
+  display:none;
+  margin-top:12px;
+  width:90%;
+  height:100px;
+  border:1px dashed;
+  margin-left:40px
+  ;
+}
+.upload_File{
+  padding: 6px 50px;
+    margin-top: 34px;
+    margin-left: 10%;
+}
+.submit_Button{
+  padding: 7px 15px;
+    border: 1px solid;
 }
 </style>
