@@ -37,11 +37,12 @@
             <input field class="in-field" placeholder="HeadLine" @change="onChange"/>
             <br />
             <br/>
-              <div class="add_item">
-                <button @click="controlnav" id ="main_photo"><i class="fa fa-plus"></i></button>  
+            <button @click="controlnav" id ="main_photo" ><i class="fa fa-plus"></i></button>  
 
-                <div id="hide" class="block_items" ref="add_content">
-                  <button @click="uploadimage"class="all_buttons"><i class="fa fa-image">images</i></button> 
+              <div class="add_item"  ref="add_content">
+
+                <div id="hide" class="block_items">
+                  <button @click="uploadimage" class="all_buttons"><i class="fa fa-image">images</i></button> 
                   <button @click="uploadvideo" class="all_buttons"><i class="fa fa-video-camera">video</i></button> 
                   <button @click="uploadslide" class="all_buttons"><i class="fa fa-slideshare">slides</i></button> 
                   <button @click="uploadlink" class="all_buttons"><i class="fa fa-link">links</i></button>
@@ -55,16 +56,16 @@
               </div>
 
               <div class="pick_content" ref="upload_video">
-                <input ref="video_link" field class="upload_File" placeholder="Paste the video link here and press here to add"/>
+                <input ref="video_link" field class="upload_File" placeholder="Paste the video link "/>
                 <button class="submit_Button" @click="video_click">Submit</button>
               </div>
 
               <div class="pick_content" ref="upload_slide">
-                <input ref="slide_link"field class="upload_File" placeholder="Paste the slide link here and press here to add"/>
+                <input ref="slide_link" field class="upload_File" placeholder="Paste the slide link "/>
                 <button class="submit_Button" @click="slide_click">Submit</button>
               </div>
                  <div class="pick_content" ref="upload_link">
-                <input ref="link_link"field class="upload_File" placeholder="Paste the  link here and press here to add"/>
+                <input ref="link_link" field class="upload_File" placeholder="Paste the link "/>
                 <button class="submit_Button" @click="link_click">Submit</button>
               </div>
 
@@ -72,7 +73,7 @@
 
 
 
-             </section>
+          </section>
 
         </div>
         <div class="col-sm-3">
@@ -160,6 +161,15 @@ export default {
       } 
       else {
       x.style.display = "none";
+      var image = this.$refs["upload_image"];       
+      var video = this.$refs["upload_video"];
+      var slide = this.$refs["upload_slide"];
+      var link = this.$refs["upload_link"];
+      slide.style.display = "none";
+      link.style.display = "none";
+      video.style.display = "none";
+      image.style.display = "none"; 
+
        }
 
       },
@@ -303,6 +313,14 @@ export default {
        },
 
       snippet_click(){
+      var image = this.$refs["upload_image"];       
+      var video = this.$refs["upload_video"];
+      var slide = this.$refs["upload_slide"];
+      var link = this.$refs["upload_link"];
+      slide.style.display = "none";
+      link.style.display = "none";
+      video.style.display = "none";
+      image.style.display = "none"; 
       const desc = this.$refs.editor.quill;
       console.log(desc)
       var selection = desc.getSelection(true);
@@ -434,6 +452,8 @@ export default {
   font-size:25px;
   color:grey;
   border:none;
+  position: absolute;
+
 }
 .btn.btn-primary {
   font-size: 12px;
@@ -521,21 +541,24 @@ export default {
 }
 .editor-container {
   position: relative;
+  padding-left: 20px;
 }
 .ql-container {
   position: absolute !important;
   top: 100%;
+  left: 7%;
   max-height: 100%;
-  width: 100% !important;
+  width: 93% !important;
   border-top: 1px solid #ccc !important;
 }
 .add_item{
   width:100%;
-  display: inline-block;
+  margin-bottom: 15px;
+  display: none;
 }
 .block_items{
-  width:90%;
-  
+  width:95%;
+  margin-left: 45px;
   display: inline-block;
 }
 .all_buttons{
@@ -561,4 +584,5 @@ export default {
   padding: 7px 15px;
     border: 1px solid;
 }
+
 </style>
